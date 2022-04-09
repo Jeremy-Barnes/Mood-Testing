@@ -60,7 +60,7 @@ namespace MoodTests
             var modifiedDelta = delta;
             foreach (var link in LinkedRelationships)
             {
-                var correlation = link.CorrelationFactor2 * (link.LinkedVector.Value - Half); //(link.LinkedVector.Value - Half) / Max;
+                var correlation = link.CorrelationFactor2 * Math.Max(.01, link.LinkedVector.Value - Half); //(link.LinkedVector.Value - Half) / Max;
                 modifiedDelta = modifiedDelta + correlation;
             }
             Value += modifiedDelta;

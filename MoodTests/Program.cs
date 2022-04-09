@@ -29,8 +29,10 @@ Console.WriteLine("\r\n\r\n\r\n");
 
 var person2 = new Person();
 person2.Mood(MoodAxis.Joy).LinkMood(person2.Mood(MoodAxis.Fear),
+    new Correlation(-.75, MoodVector.MidPositiveRange, MoodVector.Max),
     new Correlation(.15, MoodVector.MidPositiveRange, MoodVector.Half),
-    new Correlation(-.75, MoodVector.Half, MoodVector.Min));
+    new Correlation(.05, MoodVector.Half, MoodVector.MidNegativeRange),
+    new Correlation(.25, MoodVector.MidNegativeRange, MoodVector.Min));
 
 for (int i = 0; i < 10; i++)
 {
