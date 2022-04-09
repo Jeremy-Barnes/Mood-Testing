@@ -3,7 +3,7 @@
 using MoodTests;
 
 var person1 = new Person();
-person1.Mood(MoodAxis.Joy).LinkMood(person1.Mood(MoodAxis.Fear), .15, (MoodVector.MidPositiveRange, MoodVector.Half), -.75);
+person1.Mood(MoodAxis.Joy).LinkMood(person1.Mood(MoodAxis.Fear), new Correlation(.15, MoodVector.MidPositiveRange, MoodVector.Half), new Correlation(-.75, MoodVector.Max, MoodVector.MidPositiveRange));
 
 
 for (int i = 0; i < 6; i++)
@@ -28,7 +28,9 @@ Console.WriteLine("\r\n\r\n\r\n");
 
 
 var person2 = new Person();
-person2.Mood(MoodAxis.Joy).LinkMood(person2.Mood(MoodAxis.Fear), .15, new Correlation(MoodVector.MidPositiveRange, MoodVector.Half), -.75);
+person2.Mood(MoodAxis.Joy).LinkMood(person2.Mood(MoodAxis.Fear),
+    new Correlation(.15, MoodVector.MidPositiveRange, MoodVector.Half),
+    new Correlation(-.75, MoodVector.Half, MoodVector.Min));
 
 for (int i = 0; i < 10; i++)
 {

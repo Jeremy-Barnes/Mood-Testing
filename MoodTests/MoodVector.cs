@@ -40,7 +40,7 @@ namespace MoodTests
         public MoodAxis Axis { get; set; }
         public List<AxisLink> LinkedRelationships { get; set; } = new List<AxisLink>();
 
-        public void LinkMood(MoodVector mood, double correlationStrength, params Correlation[] correlations)
+        public void LinkMood(MoodVector mood, params Correlation[] correlations)
         {
             if (mood.Axis == Axis || LinkedRelationships.Any(link => link.LinkedVector.Axis == mood.Axis)) return;
 
@@ -84,21 +84,21 @@ namespace MoodTests
 
     public class AxisLink
     {
-        public double StandardCorrelationFactor { get; set; }
-        public double? InvertedCorrelationFactor { get; set; }
-        public (double HighBound, double LowBound) StandardCorrelationRange { get; set; }
+        //public double StandardCorrelationFactor { get; set; }
+        //public double? InvertedCorrelationFactor { get; set; }
+        //public (double HighBound, double LowBound) StandardCorrelationRange { get; set; }
         public List<Correlation> CorrelationRanges { get; set; } = new List<Correlation>();
         public MoodVector LinkedVector { get; set; }
-        public bool IsReverseCorrelated
-        {
-            get
-            {
-                return StandardCorrelationRange.HighBound >= LinkedVector.Value || StandardCorrelationRange.LowBound <= LinkedVector.Value;
-            }
-        }
+        //public bool IsReverseCorrelated
+        //{
+        //    get
+        //    {
+        //        return StandardCorrelationRange.HighBound >= LinkedVector.Value || StandardCorrelationRange.LowBound <= LinkedVector.Value;
+        //    }
+        //}
 
-        public double CorrelationFactor => IsReverseCorrelated ? InvertedCorrelationFactor.Value : StandardCorrelationFactor;
-        public double CorrelationFactor2 => CorrelationRanges.FirstOrDefault(range => range.ContainsValue(LinkedVector.Value);
+        //public double CorrelationFactor => IsReverseCorrelated ? InvertedCorrelationFactor.Value : StandardCorrelationFactor;
+        public double CorrelationFactor2 => CorrelationRanges.FirstOrDefault(range => range.ContainsValue(LinkedVector.Value)).Factor;
         public override string ToString()
         {
             return LinkedVector.ToString();
