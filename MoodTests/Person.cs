@@ -52,6 +52,7 @@ namespace MoodTests
             return Half - strength + Half;
         }
 
+    }
     public enum TraitType
     {
         Aggression,
