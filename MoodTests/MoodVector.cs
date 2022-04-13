@@ -37,30 +37,49 @@ namespace MoodTests
             }
         }
 
-        public MoodAxis Axis { get; set; }
-        public List<AxisLink> LinkedRelationships { get; set; } = new List<AxisLink>();
+        public MoodAxis Axis { get; }
+        private Dictionary<MoodAxis, AxisLink> LinkedMoods { get; set; } = new Dictionary<MoodAxis, AxisLink>();
 
-        public void LinkMood(MoodVector mood, params Correlation[] correlations)
+        public void LinkMoodsBidirectional(MoodVector linkMood, Correlation correlation, Correlation inverseCorrelation)
         {
-            if (mood.Axis == Axis || LinkedRelationships.Any(link => link.LinkedVector.Axis == mood.Axis)) return;
+            LinkMoodsUnidirectional(linkMood, correlation);
+            linkMood.LinkMoodsUnidirectional(this, inverseCorrelation ?? correlation);
 
-            LinkedRelationships.Add(new AxisLink
-            {
-                //InvertedCorrelationFactor = invertedCorrelationFactor,
-                LinkedVector = mood,
-                CorrelationRanges = correlations.ToList()
-                //StandardCorrelationRange = standardRange,
-                //StandardCorrelationFactor = correlationStrength
-            });
         }
 
+        public void LinkMoodsUnidirectional(MoodVector linkMood, Correlation correlation)
+        {
+            if (linkMood.Axis == Axis) throw new InvalidOperationException("Cant link a mood with itself. You can't land on a fraction!");
+
+            var link = LinkedMoods.GetValueOrDefault(linkMood.Axis, new AxisLink(linkMood));
+            link.CorrelationRanges.Add(correlation);
+
+            LinkedMoods[linkMood.Axis] = link;
+
+        }
 
         public void UpdateMood(double delta)
         {
             var modifiedDelta = delta;
-            foreach (var link in LinkedRelationships)
+            foreach (var link in LinkedMoods.Values)
             {
                 var correlation = link.CorrelationFactor2 * Math.Max(.01, link.LinkedVector.Value - Half); //(link.LinkedVector.Value - Half) / Max;
+                modifiedDelta = modifiedDelta + correlation;
+            }
+            Value += modifiedDelta;
+
+            foreach (var link in LinkedMoods.Values)
+            {
+                link.LinkedVector.UpdateMoodWithoutPropagating(0);
+            }
+        }
+
+        protected void UpdateMoodWithoutPropagating(double delta)
+        {
+            var modifiedDelta = delta;
+            foreach (var link in LinkedMoods.Values)
+            {
+                var correlation = link.CorrelationFactor2 * (link.LinkedVector.Value - Half);
                 modifiedDelta = modifiedDelta + correlation;
             }
             Value += modifiedDelta;
@@ -84,21 +103,15 @@ namespace MoodTests
 
     public class AxisLink
     {
-        //public double StandardCorrelationFactor { get; set; }
-        //public double? InvertedCorrelationFactor { get; set; }
-        //public (double HighBound, double LowBound) StandardCorrelationRange { get; set; }
         public List<Correlation> CorrelationRanges { get; set; } = new List<Correlation>();
         public MoodVector LinkedVector { get; set; }
-        //public bool IsReverseCorrelated
-        //{
-        //    get
-        //    {
-        //        return StandardCorrelationRange.HighBound >= LinkedVector.Value || StandardCorrelationRange.LowBound <= LinkedVector.Value;
-        //    }
-        //}
-
-        //public double CorrelationFactor => IsReverseCorrelated ? InvertedCorrelationFactor.Value : StandardCorrelationFactor;
         public double CorrelationFactor2 => CorrelationRanges.FirstOrDefault(range => range.ContainsValue(LinkedVector.Value)).Factor;
+
+        public AxisLink(MoodVector link)
+        {
+            LinkedVector = link;
+        }
+
         public override string ToString()
         {
             return LinkedVector.ToString();
