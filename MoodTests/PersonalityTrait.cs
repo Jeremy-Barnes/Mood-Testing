@@ -57,14 +57,21 @@ namespace MoodTests
                 case PersonalityTraitType.Toughness:
                     {
                         int thrillTerrorBoundary = (int)Math.Round(10 * (Value - Half));
-                        //boredom -fear -joy
-                        joy.LinkMoodsBidirectional(fear, new Correlation(-.005/(Value/Max), MoodVector.GetPercentOfRange(0), MoodVector.GetPercentOfRange(25)), null);
-                        //security -fear +joy
-                        joy.LinkMoodsBidirectional(fear, new Correlation(.10/(Value / Max), MoodVector.GetPercentOfRange(25), MoodVector.Half), null);
-                        //thrill +fear +joy
-                        joy.LinkMoodsBidirectional(fear, new Correlation(.125/ (Value / Max), MoodVector.Half, MoodVector.GetPercentOfRange(60 + thrillTerrorBoundary)), null);
-                        //terror +fear -joy
-                        joy.LinkMoodsBidirectional(fear, new Correlation(-.175 / (Value / Max), MoodVector.GetPercentOfRange(60 + thrillTerrorBoundary), MoodVector.Max), null);
+                        joy.LinkMoodsBidirectional(fear, 
+                            new Correlation(-.005/(Value/Max), MoodVector.Min, MoodVector.GetPercentOfRange(25)), //boredom -joy
+                            new Correlation(.025 / (Value / Max), MoodVector.Min, MoodVector.GetPercentOfRange(25))); //despair ++fear
+
+                        joy.LinkMoodsBidirectional(fear, 
+                            new Correlation(.10/(Value / Max), MoodVector.GetPercentOfRange(25), MoodVector.Half), //security -fear +joy
+                            new Correlation(.025 / (Value / Max), MoodVector.GetPercentOfRange(25), MoodVector.Half)); //sadness ~+fear
+
+                        joy.LinkMoodsBidirectional(fear, 
+                            new Correlation(.125/ (Value / Max), MoodVector.Half, MoodVector.GetPercentOfRange(60 + thrillTerrorBoundary)), //thrill +joy
+                            new Correlation(-.125 / (Value / Max), MoodVector.Half, MoodVector.MidPositiveRange)); //happiness ~-fear
+
+                        joy.LinkMoodsBidirectional(fear, 
+                            new Correlation(-.675 / (Value / Max), MoodVector.GetPercentOfRange(60 + thrillTerrorBoundary), MoodVector.Max), //terror --joy
+                            new Correlation(-.25 / (Value / Max), MoodVector.Max, MoodVector.Max)); //joy -fear
                         break;
                     }
                 case PersonalityTraitType.Warmth:

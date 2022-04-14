@@ -72,27 +72,31 @@ namespace MoodTests
 
             foreach (var link in LinkedMoods.Values)
             {
-                link.LinkedVector.UpdateMoodForPropagation(modifiedDelta, this, originalValue);
+                link.LinkedVector.UpdateMoodForPropagation(modifiedDelta, this);
             }
         }
 
-        protected void UpdateMoodForPropagation(double delta, MoodVector originatingMood, double originatingMoodValue)
+        protected void UpdateMoodForPropagation(double delta, MoodVector originatingMood)
         {
             var moodLink = LinkedMoods[originatingMood.Axis];
-            var modifiedDelta = moodLink.CorrelationFactor2 * delta;// (moodLink.LinkedVector.Value - Half); // / delta
+            var modifiedDelta = moodLink.CorrelationFactor2 / delta;// (moodLink.LinkedVector.Value - Half); // / delta
 
+            if(Math.Sign(modifiedDelta) != Math.Sign(moodLink.CorrelationFactor2)) //correlation is stronger forwards than it is in reverse
+            {
+                modifiedDelta /= 2;
+            }
 
             foreach (var link in LinkedMoods.Values)
             {
                 double correlation;
                 if (link == moodLink)
                 {
-                    correlation = link.CorrelationFactor2 * (link.LinkedVector.Value - originatingMoodValue);
+                    continue;
                 }
-                else
-                {
-                    correlation = link.CorrelationFactor2 * (link.LinkedVector.Value - Half);
-                }
+                //else
+                //{
+                correlation = link.CorrelationFactor2 * (link.LinkedVector.Value - Half);
+                //}
                 modifiedDelta = modifiedDelta + correlation;
 
             }
