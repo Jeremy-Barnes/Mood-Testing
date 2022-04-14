@@ -19,6 +19,7 @@ namespace MoodTests
         public const double MidPositiveRange = (Max + Half) / 2;
         public const double MidNegativeRange = (Min + Half) / 2;
 
+
         private double moodValue = Half;
         public double Value
         {
@@ -60,6 +61,7 @@ namespace MoodTests
 
         public void UpdateMood(double delta)
         {
+            var originalValue = this.Value;
             var modifiedDelta = delta;
             foreach (var link in LinkedMoods.Values)
             {
@@ -70,17 +72,29 @@ namespace MoodTests
 
             foreach (var link in LinkedMoods.Values)
             {
-                link.LinkedVector.UpdateMoodWithoutPropagating(0);
+                link.LinkedVector.UpdateMoodForPropagation(modifiedDelta, this, originalValue);
             }
         }
 
-        protected void UpdateMoodWithoutPropagating(double delta)
+        protected void UpdateMoodForPropagation(double delta, MoodVector originatingMood, double originatingMoodValue)
         {
-            var modifiedDelta = delta;
+            var moodLink = LinkedMoods[originatingMood.Axis];
+            var modifiedDelta = moodLink.CorrelationFactor2 * delta;// (moodLink.LinkedVector.Value - Half); // / delta
+
+
             foreach (var link in LinkedMoods.Values)
             {
-                var correlation = link.CorrelationFactor2 * (link.LinkedVector.Value - Half);
+                double correlation;
+                if (link == moodLink)
+                {
+                    correlation = link.CorrelationFactor2 * (link.LinkedVector.Value - originatingMoodValue);
+                }
+                else
+                {
+                    correlation = link.CorrelationFactor2 * (link.LinkedVector.Value - Half);
+                }
                 modifiedDelta = modifiedDelta + correlation;
+
             }
             Value += modifiedDelta;
         }
@@ -88,6 +102,15 @@ namespace MoodTests
         public override string ToString()
         {
             return $"{Axis} - {Value}";
+        }
+
+        public static double GetPercentOfRange(int percent)
+        {
+            if (percent == 0) return Min;
+            if (percent == 100) return Max;
+
+            double percentDecimal = percent / 100.0;
+            return (Max * percentDecimal) + (Min * (1 - percentDecimal));
         }
     }
 
@@ -120,11 +143,20 @@ namespace MoodTests
 
     public class Correlation
     {
-        public Correlation(double factor, double upperLimitValue, double lowerLimitValue)
+        public Correlation(double factor, double lowerLimitValue, double upperLimitValue)
         {
             Factor = factor;
             ValueLowerLimit = lowerLimitValue;
             ValueUpperLimit = upperLimitValue;
+
+            if (ValueLowerLimit > MoodVector.Half)
+            {
+                ValueLowerLimit = MoodVector.Half;
+            }
+            if (ValueUpperLimit < MoodVector.Half)
+            {
+                ValueUpperLimit = MoodVector.Half;
+            }
         }
 
         public double Factor { get; set; }

@@ -41,7 +41,8 @@ namespace MoodTests
         }
 
         public PersonalityTraitType TraitType { get; }
-        public double Value { get; set; }
+        public double Value { get; set; } = 2.1;
+        //public double ValuePercentOfScale => (Value - Half) / Max;
 
         public void LinkMoods(Person person)
         {
@@ -55,14 +56,15 @@ namespace MoodTests
                     }
                 case PersonalityTraitType.Toughness:
                     {
+                        int thrillTerrorBoundary = (int)Math.Round(10 * (Value - Half));
                         //boredom -fear -joy
-                        joy.LinkMoodsBidirectional(fear, new Correlation(-.01, MoodVector.MidNegativeRange, MoodVector.Min), null);
+                        joy.LinkMoodsBidirectional(fear, new Correlation(-.005/(Value/Max), MoodVector.GetPercentOfRange(0), MoodVector.GetPercentOfRange(25)), null);
                         //security -fear +joy
-                        joy.LinkMoodsBidirectional(fear, new Correlation(.20, MoodVector.Half, MoodVector.MidNegativeRange), null);
+                        joy.LinkMoodsBidirectional(fear, new Correlation(.10/(Value / Max), MoodVector.GetPercentOfRange(25), MoodVector.Half), null);
                         //thrill +fear +joy
-                        joy.LinkMoodsBidirectional(fear, new Correlation(.25, MoodVector.MidPositiveRange, MoodVector.Half), null);
+                        joy.LinkMoodsBidirectional(fear, new Correlation(.125/ (Value / Max), MoodVector.Half, MoodVector.GetPercentOfRange(60 + thrillTerrorBoundary)), null);
                         //terror +fear -joy
-                        joy.LinkMoodsBidirectional(fear, new Correlation(-.35, MoodVector.Max, MoodVector.MidPositiveRange), null);
+                        joy.LinkMoodsBidirectional(fear, new Correlation(-.175 / (Value / Max), MoodVector.GetPercentOfRange(60 + thrillTerrorBoundary), MoodVector.Max), null);
                         break;
                     }
                 case PersonalityTraitType.Warmth:
@@ -82,6 +84,11 @@ namespace MoodTests
                         break;
                     }
             }
+        }
+
+        private double convertValueToVector()
+        {
+            return ((MoodVector.Max + MoodVector.Min) / (PersonalityTrait.Max + PersonalityTrait.Min)) * Value;
         }
     }
 

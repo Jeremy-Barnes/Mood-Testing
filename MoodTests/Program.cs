@@ -2,19 +2,19 @@
 
 using MoodTests;
 
-var person1 = new Person();
-person1.Mood(MoodAxis.Joy).LinkMood(person1.Mood(MoodAxis.Fear), new Correlation(.15, MoodVector.MidPositiveRange, MoodVector.Half), new Correlation(-.75, MoodVector.Max, MoodVector.MidPositiveRange));
+//var person1 = new Person();
+//person1.Mood(MoodAxis.Joy).LinkMood(person1.Mood(MoodAxis.Fear), .15, (MoodVector.MidPositiveRange, MoodVector.Half), -.75);
 
 
-for (int i = 0; i < 6; i++)
-{
-    Console.WriteLine($"{person1.Mood(MoodAxis.Joy)}  {person1.Mood(MoodAxis.Fear)}");
-    person1.Mood(MoodAxis.Joy).UpdateMood(1);
-    person1.Mood(MoodAxis.Fear).UpdateMood(1);
+//for (int i = 0; i < 6; i++)
+//{
+//    Console.WriteLine($"{person1.Mood(MoodAxis.Joy)}  {person1.Mood(MoodAxis.Fear)}");
+//    person1.Mood(MoodAxis.Joy).UpdateMood(1);
+//    person1.Mood(MoodAxis.Fear).UpdateMood(1);
 
-}
+//}
 
-Console.WriteLine("\r\n\r\n\r\n");
+//Console.WriteLine("\r\n\r\n\r\n");
 
 //var person2 = new Person();
 //person2.Mood(MoodAxis.Joy).LinkMood(person2.Mood(MoodAxis.Fear), .15, (MoodVector.MidPositiveRange, MoodVector.Half), -.75);
@@ -27,16 +27,20 @@ Console.WriteLine("\r\n\r\n\r\n");
 //}
 
 
-var person2 = new Person();
-person2.Mood(MoodAxis.Joy).LinkMood(person2.Mood(MoodAxis.Fear),
-    new Correlation(-.75, MoodVector.MidPositiveRange, MoodVector.Max),
-    new Correlation(.15, MoodVector.MidPositiveRange, MoodVector.Half),
-    new Correlation(.05, MoodVector.Half, MoodVector.MidNegativeRange),
-    new Correlation(.25, MoodVector.MidNegativeRange, MoodVector.Min));
+var person2 = new Person(new Personality());
+Console.WriteLine($"{person2.Mood(MoodAxis.Joy)}  {person2.Mood(MoodAxis.Fear)}");
+
+
+for (int i = 0; i < 2; i++)
+{
+    person2.Mood(MoodAxis.Fear).UpdateMood(2.5);
+    Console.WriteLine($"{person2.Mood(MoodAxis.Joy)}  {person2.Mood(MoodAxis.Fear)}");
+    //person2.Mood(MoodAxis.Joy).UpdateMood(0);
+}
 
 for (int i = 0; i < 10; i++)
 {
-    Console.WriteLine($"{person2.Mood(MoodAxis.Joy)}  {person2.Mood(MoodAxis.Fear)}");
     person2.Mood(MoodAxis.Fear).UpdateMood(-1);
-    person2.Mood(MoodAxis.Joy).UpdateMood(0);
+    Console.WriteLine($"{person2.Mood(MoodAxis.Joy)}  {person2.Mood(MoodAxis.Fear)}");
+    //person2.Mood(MoodAxis.Joy).UpdateMood(0);
 }
