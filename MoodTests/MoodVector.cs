@@ -52,6 +52,7 @@ namespace MoodTests
         {
             if (linkMood.Axis == Axis) throw new InvalidOperationException("Cant link a mood with itself. You can't land on a fraction!");
 
+            correlation.Name = $"{Axis} --> {linkMood.Axis}";
             var link = LinkedMoods.GetValueOrDefault(linkMood.Axis, new AxisLink(linkMood));
             link.CorrelationRanges.Add(correlation);
 
@@ -81,7 +82,7 @@ namespace MoodTests
             var moodLink = LinkedMoods[originatingMood.Axis];
             var modifiedDelta = moodLink.CorrelationFactor2 / delta;// (moodLink.LinkedVector.Value - Half); // / delta
 
-            if(Math.Sign(modifiedDelta) != Math.Sign(moodLink.CorrelationFactor2)) //correlation is stronger forwards than it is in reverse
+            if (Math.Sign(modifiedDelta) != Math.Sign(moodLink.CorrelationFactor2)) //correlation is stronger forwards than it is in reverse
             {
                 modifiedDelta /= 2;
             }
@@ -153,22 +154,24 @@ namespace MoodTests
             ValueLowerLimit = lowerLimitValue;
             ValueUpperLimit = upperLimitValue;
 
-            if (ValueLowerLimit > MoodVector.Half)
+            if (ValueLowerLimit > upperLimitValue)
             {
-                ValueLowerLimit = MoodVector.Half;
+                ValueLowerLimit = upperLimitValue;
             }
-            if (ValueUpperLimit < MoodVector.Half)
-            {
-                ValueUpperLimit = MoodVector.Half;
-            }
+
         }
 
+        public string Name { get; set; }
         public double Factor { get; set; }
         public double ValueUpperLimit { get; set; }
         public double ValueLowerLimit { get; set; }
         public bool ContainsValue(double value)
         {
             return ValueLowerLimit <= value && value <= ValueUpperLimit;
+        }
+        public override string ToString()
+        {
+            return $"{Name}";
         }
     }
 }
