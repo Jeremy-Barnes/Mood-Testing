@@ -45,6 +45,7 @@ namespace MoodTests
 
         public void LinkMoods(Person person)
         {
+            var connection = person.Mood(MoodAxis.Connection);
             var fear = person.Mood(MoodAxis.Fear);
             var joy = person.Mood(MoodAxis.Joy);
             switch (TraitType)
@@ -58,7 +59,7 @@ namespace MoodTests
                         int thrillTerrorBoundary = (int)Math.Round(13 * (Value - Half));
                         joy.LinkMoodsBidirectional(fear,
                             new Correlation(-.050 / (Value / Max), MoodVector.Min, MoodVector.GetPercentOfRange(25)), //boredom -joy
-                            new Correlation(-.400 / (Value / Max), MoodVector.Min, MoodVector.GetPercentOfRange(25))); //despair ++fear
+                            new Correlation(.200 / (Value / Max), MoodVector.Min, MoodVector.GetPercentOfRange(25))); //despair ++fear
 
                         joy.LinkMoodsBidirectional(fear,
                             new Correlation(.20 / (Value / Max), MoodVector.GetPercentOfRange(25), MoodVector.Half), //security  +joy
