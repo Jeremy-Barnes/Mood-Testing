@@ -42,7 +42,6 @@ namespace MoodTests
 
         public PersonalityTraitType TraitType { get; }
         public double Value { get; set; } = 3;
-        //public double ValuePercentOfScale => (Value - Half) / Max;
 
         public void LinkMoods(Person person)
         {
@@ -57,19 +56,19 @@ namespace MoodTests
                 case PersonalityTraitType.Toughness:
                     {
                         int thrillTerrorBoundary = (int)Math.Round(13 * (Value - Half));
-                        joy.LinkMoodsBidirectional(fear, 
-                            new Correlation(-.050/(Value/Max), MoodVector.Min, MoodVector.GetPercentOfRange(25)), //boredom -joy
+                        joy.LinkMoodsBidirectional(fear,
+                            new Correlation(-.050 / (Value / Max), MoodVector.Min, MoodVector.GetPercentOfRange(25)), //boredom -joy
                             new Correlation(-.400 / (Value / Max), MoodVector.Min, MoodVector.GetPercentOfRange(25))); //despair ++fear
 
-                        joy.LinkMoodsBidirectional(fear, 
-                            new Correlation(.20/(Value / Max), MoodVector.GetPercentOfRange(25), MoodVector.Half), //security  +joy
+                        joy.LinkMoodsBidirectional(fear,
+                            new Correlation(.20 / (Value / Max), MoodVector.GetPercentOfRange(25), MoodVector.Half), //security  +joy
                             new Correlation(-.085 / (Value / Max), MoodVector.GetPercentOfRange(25), MoodVector.Half)); //sadness ~+fear
 
-                        joy.LinkMoodsBidirectional(fear, 
-                            new Correlation(.250/ (Value / Max), MoodVector.Half, MoodVector.GetPercentOfRange(70 + thrillTerrorBoundary)), //thrill +joy
+                        joy.LinkMoodsBidirectional(fear,
+                            new Correlation(.250 / (Value / Max), MoodVector.Half, MoodVector.GetPercentOfRange(70 + thrillTerrorBoundary)), //thrill +joy
                             new Correlation(-.0425 / (Value / Max), MoodVector.Half, MoodVector.MidPositiveRange)); //happiness ~-fear
 
-                        joy.LinkMoodsBidirectional(fear, 
+                        joy.LinkMoodsBidirectional(fear,
                             new Correlation(-.475 / (Value / Max), Math.Max(MoodVector.Half, MoodVector.GetPercentOfRange(70 + thrillTerrorBoundary)), MoodVector.Max), //terror --joy
                             new Correlation(-.0125 / (Value / Max), MoodVector.MidPositiveRange, MoodVector.Max)); //joy -fear
                         break;
@@ -91,11 +90,6 @@ namespace MoodTests
                         break;
                     }
             }
-        }
-
-        private double convertValueToVector()
-        {
-            return ((MoodVector.Max + MoodVector.Min) / (PersonalityTrait.Max + PersonalityTrait.Min)) * Value;
         }
     }
 
