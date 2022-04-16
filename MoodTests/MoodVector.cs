@@ -43,6 +43,8 @@ namespace MoodTests
 
         public void LinkMoodsBidirectional(MoodVector linkMood, Correlation correlation, Correlation inverseCorrelation)
         {
+            if (correlation.ValueUpperLimit == correlation.ValueLowerLimit) correlation = null;
+            if (inverseCorrelation.ValueUpperLimit == inverseCorrelation.ValueLowerLimit) inverseCorrelation = null;
             LinkMoodsUnidirectional(linkMood, correlation);
             linkMood.LinkMoodsUnidirectional(this, inverseCorrelation ?? correlation);
 
@@ -50,6 +52,7 @@ namespace MoodTests
 
         public void LinkMoodsUnidirectional(MoodVector linkMood, Correlation correlation)
         {
+            if (correlation == null) return;
             if (linkMood.Axis == Axis) throw new InvalidOperationException("Cant link a mood with itself. You can't land on a fraction!");
 
             correlation.Name = $"{Axis} --> {linkMood.Axis}";
@@ -66,23 +69,23 @@ namespace MoodTests
             var modifiedDelta = delta;
             foreach (var link in LinkedMoods.Values)
             {
-                var correlation = link.CorrelationFactor2 * Math.Max(.01, link.LinkedVector.Value - Half); //(link.LinkedVector.Value - Half) / Max;
+                var correlation = link.CorrelationFactor * Math.Max(.01, link.Correlation.CalculateCorrelationMaginitude(link.LinkedVector.Value)); //(link.LinkedVector.Value - Half) / Max;
                 modifiedDelta = modifiedDelta + correlation;
             }
             Value += modifiedDelta;
 
             foreach (var link in LinkedMoods.Values)
             {
-                link.LinkedVector.UpdateMoodForPropagation(modifiedDelta, this);
+                link.LinkedVector.UpdateMoodForPropagation(this);
             }
         }
 
-        protected void UpdateMoodForPropagation(double delta, MoodVector originatingMood)
+        protected void UpdateMoodForPropagation(MoodVector originatingMood)
         {
             var moodLink = LinkedMoods[originatingMood.Axis];
-            var modifiedDelta = moodLink.CorrelationFactor2 / delta;// (moodLink.LinkedVector.Value - Half); // / delta
+            var modifiedDelta = (moodLink.Correlation.CalculateCorrelationMaginitude(moodLink.LinkedVector.Value) * moodLink.CorrelationFactor);// (moodLink.LinkedVector.Value - Half); // / delta
 
-            if (Math.Sign(modifiedDelta) != Math.Sign(moodLink.CorrelationFactor2)) //correlation is stronger forwards than it is in reverse
+            if (Math.Sign(modifiedDelta) != Math.Sign(moodLink.CorrelationFactor)) //correlation is stronger forwards than it is in reverse
             {
                 modifiedDelta /= 2;
             }
@@ -96,7 +99,7 @@ namespace MoodTests
                 }
                 //else
                 //{
-                correlation = link.CorrelationFactor2 * (link.LinkedVector.Value - Half);
+                correlation = link.CorrelationFactor * (link.LinkedVector.Value - Half);
                 //}
                 modifiedDelta = modifiedDelta + correlation;
 
@@ -133,7 +136,8 @@ namespace MoodTests
     {
         public List<Correlation> CorrelationRanges { get; set; } = new List<Correlation>();
         public MoodVector LinkedVector { get; set; }
-        public double CorrelationFactor2 => CorrelationRanges.FirstOrDefault(range => range.ContainsValue(LinkedVector.Value)).Factor;
+        public double CorrelationFactor => CorrelationRanges.FirstOrDefault(range => range.ContainsValue(LinkedVector.Value)).Factor;
+        public Correlation Correlation => CorrelationRanges.FirstOrDefault(range => range.ContainsValue(LinkedVector.Value));
 
         public AxisLink(MoodVector link)
         {
@@ -165,6 +169,10 @@ namespace MoodTests
         public double Factor { get; set; }
         public double ValueUpperLimit { get; set; }
         public double ValueLowerLimit { get; set; }
+        public double CalculateCorrelationMaginitude(double value)
+        {
+            return value / ValueUpperLimit;
+        }
         public bool ContainsValue(double value)
         {
             return ValueLowerLimit <= value && value <= ValueUpperLimit;

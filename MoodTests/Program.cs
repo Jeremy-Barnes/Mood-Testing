@@ -31,9 +31,9 @@ var person2 = new Person(new Personality());
 Console.WriteLine($"{person2.Mood(MoodAxis.Joy)}  {person2.Mood(MoodAxis.Fear)}");
 
 
-for (int i = 0; i < 2; i++)
+for (int i = 0; i < 6; i++)
 {
-    person2.Mood(MoodAxis.Fear).UpdateMood(2.5);
+    person2.Mood(MoodAxis.Fear).UpdateMood(.66);
     Console.WriteLine($"{person2.Mood(MoodAxis.Joy)}  {person2.Mood(MoodAxis.Fear)}");
     //person2.Mood(MoodAxis.Joy).UpdateMood(0);
 }
