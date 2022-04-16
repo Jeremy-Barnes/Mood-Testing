@@ -109,7 +109,7 @@ namespace MoodTests
 
         public override string ToString()
         {
-            return $"{Axis} - {Value}";
+            return $"{Axis.ToString().PadRight(10)} - {Value.ToString("##.##").PadRight(5)}";
         }
 
         public static double GetPercentOfRange(int percent)
@@ -171,7 +171,14 @@ namespace MoodTests
         public double ValueLowerLimit { get; set; }
         public double CalculateCorrelationMaginitude(double value)
         {
-            return value / ValueUpperLimit;
+            if (ValueUpperLimit < MoodVector.Half)
+            {
+                return (ValueUpperLimit - value) / ValueUpperLimit;
+            }
+            else
+            {
+                return value / ValueUpperLimit;
+            }
         }
         public bool ContainsValue(double value)
         {

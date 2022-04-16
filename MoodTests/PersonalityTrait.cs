@@ -63,7 +63,7 @@ namespace MoodTests
 
                         joy.LinkMoodsBidirectional(fear,
                             new Correlation(.20 / (Value / Max), MoodVector.GetPercentOfRange(25), MoodVector.Half), //security  +joy
-                            new Correlation(-.085 / (Value / Max), MoodVector.GetPercentOfRange(25), MoodVector.Half)); //sadness ~+fear
+                            new Correlation(.085 / (Value / Max), MoodVector.GetPercentOfRange(25), MoodVector.Half)); //sadness ~+fear
 
                         joy.LinkMoodsBidirectional(fear,
                             new Correlation(.250 / (Value / Max), MoodVector.Half, MoodVector.GetPercentOfRange(70 + thrillTerrorBoundary)), //thrill +joy
