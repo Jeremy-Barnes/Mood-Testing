@@ -46,7 +46,8 @@ namespace MoodTests
             if (correlation.ValueUpperLimit == correlation.ValueLowerLimit) correlation = null;
             if (inverseCorrelation.ValueUpperLimit == inverseCorrelation.ValueLowerLimit) inverseCorrelation = null;
             LinkMoodsUnidirectional(linkMood, correlation);
-            linkMood.LinkMoodsUnidirectional(this, inverseCorrelation ?? correlation);
+            if (inverseCorrelation != null)
+                linkMood.LinkMoodsUnidirectional(this, inverseCorrelation);
 
         }
 
@@ -65,7 +66,6 @@ namespace MoodTests
 
         public void UpdateMood(double delta)
         {
-            var originalValue = this.Value;
             var modifiedDelta = delta;
             foreach (var link in LinkedMoods.Values)
             {
