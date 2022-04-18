@@ -69,7 +69,8 @@ namespace MoodTests
             var modifiedDelta = delta;
             foreach (var link in LinkedMoods.Values)
             {
-                var correlation = link.CorrelationFactor * Math.Max(.01, link.Correlation.CalculateCorrelationMaginitude(link.LinkedVector.Value)); //(link.LinkedVector.Value - Half) / Max;
+                //limit correlation's impact based on the size of the impulse
+                var correlation = Math.Abs(delta / MoodVector.Max) * link.CorrelationFactor * link.Correlation.CalculateCorrelationMagnitude(link.LinkedVector.Value); //Math.Max(.01, ); //(link.LinkedVector.Value - Half) / Max;
                 modifiedDelta = modifiedDelta + correlation;
             }
             Value += modifiedDelta;
@@ -83,7 +84,7 @@ namespace MoodTests
         protected void UpdateMoodForPropagation(MoodVector originatingMood)
         {
             var moodLink = LinkedMoods[originatingMood.Axis];
-            var modifiedDelta = (moodLink.Correlation.CalculateCorrelationMaginitude(moodLink.LinkedVector.Value) * moodLink.CorrelationFactor);// (moodLink.LinkedVector.Value - Half); // / delta
+            var modifiedDelta = (moodLink.Correlation.CalculateCorrelationMagnitude(moodLink.LinkedVector.Value) * moodLink.CorrelationFactor);// (moodLink.LinkedVector.Value - Half); // / delta
 
             if (Math.Sign(modifiedDelta) != Math.Sign(moodLink.CorrelationFactor)) //correlation is stronger forwards than it is in reverse
             {
@@ -99,7 +100,7 @@ namespace MoodTests
                 }
                 //else
                 //{
-                correlation = link.CorrelationFactor * (link.LinkedVector.Value - Half);
+                correlation = (moodLink.Correlation.CalculateCorrelationMagnitude(moodLink.LinkedVector.Value) * moodLink.CorrelationFactor);
                 //}
                 modifiedDelta = modifiedDelta + correlation;
 
@@ -169,7 +170,7 @@ namespace MoodTests
         public double Factor { get; set; }
         public double ValueUpperLimit { get; set; }
         public double ValueLowerLimit { get; set; }
-        public double CalculateCorrelationMaginitude(double value)
+        public double CalculateCorrelationMagnitude(double value)
         {
             if (ValueUpperLimit < MoodVector.Half)
             {
