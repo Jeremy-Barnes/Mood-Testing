@@ -7,9 +7,10 @@ var person2 = new Person(new Personality());
 double lastFear = 6;
 double lastjoy = 6;
 
-for (int i = 0; i < 10; i++)
+person2.Mood(MoodAxis.Joy).UpdateMood(-.25);
+
+for (int i = 0; i < 6; i++)
 {
-    person2.Mood(MoodAxis.Joy).UpdateMood(-1.66);
 
     printMood(person2.Mood(MoodAxis.Joy), lastjoy);
     printMood(person2.Mood(MoodAxis.Fear), lastFear);
@@ -20,13 +21,30 @@ for (int i = 0; i < 10; i++)
 
 }
 
+
+lastFear = person2.Mood(MoodAxis.Fear).Value;
+lastjoy = person2.Mood(MoodAxis.Joy).Value;
+
+for (int i = 0; i < 6; i++)
+{
+    person2.Mood(MoodAxis.Connection).UpdateMood(-.66);
+
+    printMood(person2.Mood(MoodAxis.Joy), lastjoy);
+    printMood(person2.Mood(MoodAxis.Connection), lastFear);
+    lastjoy = person2.Mood(MoodAxis.Joy).Value;
+    lastFear = person2.Mood(MoodAxis.Connection).Value;
+    Console.WriteLine();
+    Console.WriteLine();
+
+}
+
 for (int i = 0; i < 10; i++)
 {
-    person2.Mood(MoodAxis.Fear).UpdateMood(-1);
+    person2.Mood(MoodAxis.Connection).UpdateMood(1);
     printMood(person2.Mood(MoodAxis.Joy), lastjoy);
-    printMood(person2.Mood(MoodAxis.Fear), lastFear);
+    printMood(person2.Mood(MoodAxis.Connection), lastFear);
     lastjoy = person2.Mood(MoodAxis.Joy).Value;
-    lastFear = person2.Mood(MoodAxis.Fear).Value;
+    lastFear = person2.Mood(MoodAxis.Connection).Value;
     Console.WriteLine();
     Console.WriteLine();
 }
