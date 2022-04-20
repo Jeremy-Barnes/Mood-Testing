@@ -291,11 +291,11 @@ namespace MoodTests
 
             //curious - joy
             curiosity.LinkMoodsBidirectional(joy,
-                new Correlation(weakNegativeCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25)), //joy -curiosity
-                new Correlation(strongPositiveCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25))); //curiosity +joy
+                new Correlation(weakNegativeCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25)), //despair -curiosity
+                new Correlation(strongPositiveCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25))); //boredom +joy
 
             curiosity.LinkMoodsBidirectional(joy,
-                new Correlation(mediumPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half), //joy  +curiosity
+                new Correlation(mediumPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half), //sadness  +curiosity
                 new Correlation(weakPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half)); //curiosity ~+joy
 
             curiosity.LinkMoodsBidirectional(joy,
@@ -303,25 +303,25 @@ namespace MoodTests
                 new Correlation(mediumNegativeCorrelation, MoodVector.Half, MoodVector.MidPositiveRange)); //curiosity ~-joy
 
             curiosity.LinkMoodsBidirectional(joy,
-                new Correlation(strongNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max), //joy --curiosity
-                new Correlation(weakNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max)); //curiosity -joy
+                new Correlation(strongNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max), //ecstasy --curiosity
+                new Correlation(weakNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max)); //manic curiosity -joy
 
             //curious - fear
             curiosity.LinkMoodsBidirectional(fear,
-                new Correlation(weakNegativeCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25)), //fear -curiosity
-                new Correlation(strongPositiveCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25))); //curiosity +fear
+                new Correlation(weakNegativeCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25)), //boredom -curiosity
+                new Correlation(strongPositiveCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25))); //complete disinterest +fear
 
             curiosity.LinkMoodsBidirectional(fear,
-                new Correlation(mediumPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half), //fear  +curiosity
-                new Correlation(weakPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half)); //curiosity ~+fear
+                new Correlation(mediumPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half), //security  +curiosity
+                new Correlation(weakPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half)); //disinterest ~+fear
 
             curiosity.LinkMoodsBidirectional(fear,
-                new Correlation(mediumPositiveCorrelation, MoodVector.Half, MoodVector.MidPositiveRange), //fear +curiosity
+                new Correlation(mediumPositiveCorrelation, MoodVector.Half, MoodVector.MidPositiveRange), //fear/thrill +curiosity
                 new Correlation(mediumNegativeCorrelation, MoodVector.Half, MoodVector.MidPositiveRange)); //curiosity ~-fear
 
             curiosity.LinkMoodsBidirectional(fear,
-                new Correlation(strongNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max), //fear --curiosity
-                new Correlation(weakNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max)); //curiosity -fear
+                new Correlation(strongNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max), //terror --curiosity
+                new Correlation(weakNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max)); //manic curiosity -fear
 
         }
 
@@ -335,54 +335,54 @@ namespace MoodTests
             var curiosity = person.Mood(MoodAxis.Curiosity);
             //fear - connection
             fear.LinkMoodsBidirectional(connection,
-                new Correlation(weakNegativeCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25)), //connection -fear
-                new Correlation(strongPositiveCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25))); //fear +connection
+                new Correlation(weakNegativeCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25)), //isolation -fear
+                new Correlation(strongPositiveCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25))); //boredom +connection
 
             fear.LinkMoodsBidirectional(connection,
-                new Correlation(mediumPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half), //connection  +fear
-                new Correlation(weakPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half)); //fear ~+connection
+                new Correlation(mediumPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half), //aloneness  +fear
+                new Correlation(weakPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half)); //security ~+connection
 
             fear.LinkMoodsBidirectional(connection,
                 new Correlation(mediumPositiveCorrelation, MoodVector.Half, MoodVector.MidPositiveRange), //connection +fear
-                new Correlation(mediumNegativeCorrelation, MoodVector.Half, MoodVector.MidPositiveRange)); //fear ~-connection
+                new Correlation(mediumNegativeCorrelation, MoodVector.Half, MoodVector.MidPositiveRange)); //fear/thrill ~-connection
 
             fear.LinkMoodsBidirectional(connection,
-                new Correlation(strongNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max), //connection --fear
-                new Correlation(weakNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max)); //fear -connection
+                new Correlation(strongNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max), //intense connection --fear
+                new Correlation(weakNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max)); //terror -connection
 
             //fear - joy
             fear.LinkMoodsBidirectional(joy,
-             new Correlation(weakNegativeCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25)), //joy -fear
-             new Correlation(strongPositiveCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25))); //fear +joy
+             new Correlation(weakNegativeCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25)), //despair -fear
+             new Correlation(strongPositiveCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25))); //boredom +joy
 
             fear.LinkMoodsBidirectional(joy,
-             new Correlation(mediumPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half), //joy  +fear
-             new Correlation(weakPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half)); //fear ~+joy
+             new Correlation(mediumPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half), //sadness  +fear
+             new Correlation(weakPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half)); //security ~+joy
 
             fear.LinkMoodsBidirectional(joy,
              new Correlation(mediumPositiveCorrelation, MoodVector.Half, MoodVector.MidPositiveRange), //joy +fear
-             new Correlation(mediumNegativeCorrelation, MoodVector.Half, MoodVector.MidPositiveRange)); //fear ~-joy
+             new Correlation(mediumNegativeCorrelation, MoodVector.Half, MoodVector.MidPositiveRange)); //fear/thrill ~-joy
 
             fear.LinkMoodsBidirectional(joy,
-                new Correlation(strongNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max), //joy --fear
-                new Correlation(weakNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max)); //fear -joy
+                new Correlation(strongNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max), //mania --fear
+                new Correlation(weakNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max)); //terror -joy
 
             //curiosity - fear
             fear.LinkMoodsBidirectional(curiosity,
-                new Correlation(weakNegativeCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25)), //curiosity -fear
-                new Correlation(strongPositiveCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25))); //fear +curiosity
+                new Correlation(weakNegativeCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25)), //complete disinterest -fear
+                new Correlation(strongPositiveCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25))); //boredom +curiosity
 
             fear.LinkMoodsBidirectional(curiosity,
-                new Correlation(mediumPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half), //curiosity  +fear
-                new Correlation(weakPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half)); //fear ~+curiosity
+                new Correlation(mediumPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half), //disinterest  +fear
+                new Correlation(weakPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half)); //security ~+curiosity
 
             fear.LinkMoodsBidirectional(curiosity,
                 new Correlation(mediumPositiveCorrelation, MoodVector.Half, MoodVector.MidPositiveRange), //curiosity +fear
-                new Correlation(mediumNegativeCorrelation, MoodVector.Half, MoodVector.MidPositiveRange)); //fear ~-curiosity
+                new Correlation(mediumNegativeCorrelation, MoodVector.Half, MoodVector.MidPositiveRange)); //fear/thrill ~-curiosity
 
             fear.LinkMoodsBidirectional(curiosity,
-                new Correlation(strongNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max), //curiosity --fear
-                new Correlation(weakNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max)); //fear -curiosity
+                new Correlation(strongNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max), //mania --fear
+                new Correlation(weakNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max)); //terror -curiosity
 
         }
 
@@ -397,20 +397,20 @@ namespace MoodTests
 
             //curiosity - anger
             curiosity.LinkMoodsBidirectional(anger,
-                new Correlation(weakNegativeCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25)), //anger -curiosity
-                new Correlation(strongPositiveCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25))); //curiosity +anger
+                new Correlation(weakNegativeCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25)), //zen -curiosity
+                new Correlation(strongPositiveCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25))); //boredom +anger
 
             curiosity.LinkMoodsBidirectional(anger,
-                new Correlation(mediumPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half), //anger  +curiosity
-                new Correlation(weakPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half)); //curiosity ~+anger
+                new Correlation(mediumPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half), //calm  +curiosity
+                new Correlation(weakPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half)); //disinterest ~+anger
 
             curiosity.LinkMoodsBidirectional(anger,
                 new Correlation(mediumPositiveCorrelation, MoodVector.Half, MoodVector.MidPositiveRange), //anger +curiosity
                 new Correlation(mediumNegativeCorrelation, MoodVector.Half, MoodVector.MidPositiveRange)); //curiosity ~-anger
 
             curiosity.LinkMoodsBidirectional(anger,
-                new Correlation(strongNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max), //anger --curiosity
-                new Correlation(weakNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max)); //curiosity -anger
+                new Correlation(strongNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max), //rage --curiosity
+                new Correlation(weakNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max)); //mania -anger
         }
 
         private void linkFearfulness(Person person)
@@ -424,37 +424,37 @@ namespace MoodTests
 
             //connection - fear
             connection.LinkMoodsBidirectional(fear,
-                new Correlation(weakNegativeCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25)), //fear -connection
-                new Correlation(strongPositiveCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25))); //connection +fear
+                new Correlation(weakNegativeCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25)), //boredom -connection
+                new Correlation(strongPositiveCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25))); //isolation +fear
 
             connection.LinkMoodsBidirectional(fear,
-                new Correlation(mediumPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half), //fear  +connection
-                new Correlation(weakPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half)); //connection ~+fear
+                new Correlation(mediumPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half), //security  +connection
+                new Correlation(weakPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half)); //aloneness ~+fear
 
             connection.LinkMoodsBidirectional(fear,
-                new Correlation(mediumPositiveCorrelation, MoodVector.Half, MoodVector.MidPositiveRange), //fear +connection
+                new Correlation(mediumPositiveCorrelation, MoodVector.Half, MoodVector.MidPositiveRange), //fear/thrill +connection
                 new Correlation(mediumNegativeCorrelation, MoodVector.Half, MoodVector.MidPositiveRange)); //connection ~-fear
 
             connection.LinkMoodsBidirectional(fear,
-                new Correlation(strongNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max), //fear --connection
-                new Correlation(weakNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max)); //connection -fear
+                new Correlation(strongNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max), //terror --connection
+                new Correlation(weakNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max)); //MDMA -fear
 
             //certainty - fear
             fear.LinkMoodsBidirectional(certainty,
-                new Correlation(weakNegativeCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25)), //certainty -fear
-                new Correlation(strongPositiveCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25))); //fear +certainty
+                new Correlation(weakNegativeCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25)), //chaos -fear
+                new Correlation(strongPositiveCorrelation, MoodVector.Min, MoodVector.GetPercentOfRange(25))); //boredom +certainty
 
             fear.LinkMoodsBidirectional(certainty,
-                new Correlation(mediumPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half), //certainty  +fear
-                new Correlation(weakPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half)); //fear ~+certainty
+                new Correlation(mediumPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half), //uncertainty  +fear
+                new Correlation(weakPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half)); //security ~+certainty
 
             fear.LinkMoodsBidirectional(certainty,
                 new Correlation(mediumPositiveCorrelation, MoodVector.Half, MoodVector.MidPositiveRange), //certainty +fear
-                new Correlation(mediumNegativeCorrelation, MoodVector.Half, MoodVector.MidPositiveRange)); //fear ~-certainty
+                new Correlation(mediumNegativeCorrelation, MoodVector.Half, MoodVector.MidPositiveRange)); //fear/thrill ~-certainty
 
             fear.LinkMoodsBidirectional(certainty,
-                new Correlation(strongNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max), //certainty --fear
-                new Correlation(weakNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max)); //fear -certainty
+                new Correlation(strongNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max), //conviction --fear
+                new Correlation(weakNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max)); //terror -certainty
 
             //fear - joy
             joy.LinkMoodsBidirectional(fear,
@@ -466,12 +466,12 @@ namespace MoodTests
                 new Correlation(weakPositiveCorrelation, MoodVector.GetPercentOfRange(25), MoodVector.Half)); //sadness ~+fear
 
             joy.LinkMoodsBidirectional(fear,
-                new Correlation(mediumPositiveCorrelation, MoodVector.Half, MoodVector.MidPositiveRange), //thrill +joy
+                new Correlation(mediumPositiveCorrelation, MoodVector.Half, MoodVector.MidPositiveRange), //fear/thrill +joy
                 new Correlation(mediumNegativeCorrelation, MoodVector.Half, MoodVector.MidPositiveRange)); //happiness ~-fear
 
             joy.LinkMoodsBidirectional(fear,
                 new Correlation(strongNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max), //terror --joy
-                new Correlation(weakNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max)); //joy -fear
+                new Correlation(weakNegativeCorrelation, MoodVector.MidPositiveRange, MoodVector.Max)); //mania -fear
 
         }
 
