@@ -100,7 +100,7 @@ namespace MoodTests
                 }
                 //else
                 //{
-                correlation = (moodLink.Correlation.CalculateCorrelationMagnitude(moodLink.LinkedVector.Value) * moodLink.CorrelationFactor);
+                correlation = (link.Correlation.CalculateCorrelationMagnitude(link.LinkedVector.Value) * link.CorrelationFactor);
                 //}
                 modifiedDelta = modifiedDelta + correlation;
 
